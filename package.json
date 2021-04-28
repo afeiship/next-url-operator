@@ -43,5 +43,17 @@
     "@jswork/next-hashlize": "^1.0.0",
     "@jswork/next-object-operator": "^1.0.1",
     "@jswork/next-param": "^1.0.2"
-  }
+  },
+  "keywords": [
+    "next",
+    "url",
+    "operator",
+    "hash",
+    "browser",
+    "params",
+    "hashlize",
+    "querystring",
+    "query",
+    "wip"
+  ]
 }
