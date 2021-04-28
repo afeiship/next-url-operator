@@ -25,7 +25,10 @@ npm install -S @jswork/next-url-operator
 ```js
 import NxUrlOperator from '@jswork/next-url-operator';
 
-// code goes here:
+const op = new NxUrlOperator({ url: 'https://www.baidu.com?q=hello' });
+const url = op.update({ q: 'world'});
+
+//https://www.baidu.com?q=world
 ```
 
 ## license
