@@ -23,7 +23,8 @@
         this.sets(inObject);
         var url = new URL(this.options.url);
         var prefix = [url.origin, url.port, url.pathname].join('');
-        return nxParam(this.params, prefix);
+        var params = this.gets();
+        return nxParam(params, prefix);
       }
     }
   });
