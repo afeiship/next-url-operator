@@ -4,8 +4,7 @@
   describe('NxUrlOperator.methods', function () {
     test('operator should set/get/sets/gets curd method', function () {
       var operator = new NxUrlOperator({
-        url:
-          'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
+        url: 'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
       });
 
       // 1. gets
@@ -45,8 +44,7 @@
 
     test('operator should get object params', function () {
       var operator = new NxUrlOperator({
-        url:
-          'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
+        url: 'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
       });
 
       expect(operator.params).toEqual({
@@ -65,12 +63,20 @@
 
     test('operator should update params & get the url', function () {
       var operator = new NxUrlOperator({
-        url:
-          'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
+        url: 'https://www.abc.com/content/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
       });
 
       expect(operator.update({ course: 111 })).toBe(
         'https://www.abc.com/content/course?course=111&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
+      );
+    });
+
+    test('relaitve url', () => {
+      var url =
+        '/course?course=9c9dabbf02a0e96fa8a8431c3029188d&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english';
+
+      expect(NxUrlOperator.update({ course: 111 }, url)).toBe(
+        '/course?course=111&targetCatalogUuid=ddb1a29e469246c3ffc7f6da8ca7d9a5&bizType=courseTask&businessConfigUuid=HOMEWORK&targetTaskUuid=8a1e58c6f8de6b9623fab069fd68fd79&subject=english'
       );
     });
   });

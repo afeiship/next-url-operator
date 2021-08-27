@@ -3,6 +3,7 @@
   var nx = global.nx || require('@jswork/next');
   var nxHashlize = nx.hashlize || require('@jswork/next-hashlize');
   var nxParam = nx.param || require('@jswork/next-param');
+  var isValidUrl = require('@jswork/is-valid-url').default;
   var NxObjectOperator = nx.ObjectOperator || require('@jswork/next-object-operator');
   var defaults = { type: 'browser' };
 
@@ -28,8 +29,10 @@
       },
       update: function (inObject) {
         this.sets(inObject);
-        var url = new URL(this.options.url);
-        var prefix = [url.origin, url.port, url.pathname].join('');
+        var optUrl = this.options.url;
+        var valid = isValidUrl(optUrl);
+        var url = valid ? new URL(this.options.url) : optUrl.split('?')[0];
+        var prefix = valid ? [url.origin, url.port, url.pathname].join('') : url;
         var params = this.gets();
         return nxParam(params, prefix);
       }
