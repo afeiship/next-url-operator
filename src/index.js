@@ -8,6 +8,13 @@
 
   var NxUrlOperator = nx.declare('nx.UrlOperator', {
     extends: NxObjectOperator,
+    statics: {
+      update: function (inObject, inUrl) {
+        var url = inUrl || location.href;
+        var instance = new this({ url: url });
+        return instance.update(inObject);
+      }
+    },
     properties: {
       url: function () {
         return location.href;

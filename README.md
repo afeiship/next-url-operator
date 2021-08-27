@@ -29,6 +29,13 @@ const op = new NxUrlOperator({ url: 'https://www.baidu.com?q=hello' });
 const url = op.update({ q: 'world'});
 
 //https://www.baidu.com?q=world
+
+// static method
+NxUrlOperator.update({
+  q: 'hello'
+});
+
+// http://locahost?q=hello
 ```
 
 ## license
