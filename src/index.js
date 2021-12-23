@@ -44,7 +44,7 @@
         var valid = isValidUrl(optUrl);
         var url = valid ? new URL(optUrl) : optUrl.split('?')[0];
         var hashfix = this.ishash ? '/#' : '';
-        var prefix = valid ? [url.origin, url.port, hashfix, url.pathname].join('') : url;
+        var prefix = valid ? [url.origin, hashfix, url.pathname].join('') : url;
         var params = this.gets();
         return nxParam(params, prefix);
       }
