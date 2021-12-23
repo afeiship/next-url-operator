@@ -26,7 +26,7 @@
         return this.options.type === 'hash';
       },
       url: function () {
-        return normalizeUrl(location.url);
+        return normalizeUrl(location.href);
       },
       optUrl: function () {
         return normalizeUrl(this.options.url);
