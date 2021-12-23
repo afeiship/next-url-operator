@@ -7,32 +7,44 @@
   var NxObjectOperator = nx.ObjectOperator || require('@jswork/next-object-operator');
   var defaults = { type: 'browser' };
 
+  var normalizeUrl = function (url) {
+    if (!url) return '';
+    return url.replace('#/', '');
+  };
+
   var NxUrlOperator = nx.declare('nx.UrlOperator', {
     extends: NxObjectOperator,
     statics: {
       update: function (inObject, inUrl) {
-        var url = inUrl || location.href;
+        var url = normalizeUrl(inUrl || location.href);
         var instance = new this({ url: url });
         return instance.update(inObject);
       }
     },
     properties: {
+      ishash: function () {
+        return this.options.type === 'hash';
+      },
       url: function () {
-        return location.href;
+        return normalizeUrl(location.url);
+      },
+      optUrl: function () {
+        return normalizeUrl(this.options.url);
       }
     },
     methods: {
       init: function (inOptions) {
         this.options = nx.mix(null, { url: this.url }, defaults, inOptions);
-        this.params = nxHashlize(this.options.url);
+        this.params = nxHashlize(this.optUrl);
         this.$base.init.call(this, this.params);
       },
       update: function (inObject) {
         this.sets(inObject);
-        var optUrl = this.options.url;
+        var optUrl = this.optUrl;
         var valid = isValidUrl(optUrl);
-        var url = valid ? new URL(this.options.url) : optUrl.split('?')[0];
-        var prefix = valid ? [url.origin, url.port, url.pathname].join('') : url;
+        var url = valid ? new URL(optUrl) : optUrl.split('?')[0];
+        var hashfix = this.ishash ? '/#' : '';
+        var prefix = valid ? [url.origin, url.port, hashfix, url.pathname].join('') : url;
         var params = this.gets();
         return nxParam(params, prefix);
       }
