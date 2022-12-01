@@ -1,0 +1,3 @@
+interface NxStatic {
+  UrlOperator: any;
+}
