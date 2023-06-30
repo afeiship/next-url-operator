@@ -1,6 +1,6 @@
 {
   "name": "@jswork/next-url-operator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Operator for url.",
   "homepage": "https://js.work",
   "author": {
@@ -51,5 +51,17 @@
     "@jswork/next-object-operator": "^1.0.2",
     "@jswork/next-param": "^1.0.12",
     "@jswork/next-qs": "^1.0.9"
-  }
+  },
+  "keywords": [
+    "next",
+    "url",
+    "operator",
+    "hash",
+    "browser",
+    "params",
+    "hashlize",
+    "querystring",
+    "query",
+    "wip"
+  ]
 }
