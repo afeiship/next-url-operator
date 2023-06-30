@@ -1,57 +1,56 @@
-(function () {
-  var global = typeof window !== 'undefined' ? window : this || Function('return this')();
-  var nx = global.nx || require('@jswork/next');
-  var nxHashlize = nx.hashlize || require('@jswork/next-hashlize');
-  var nxParam = nx.param || require('@jswork/next-param');
-  var isValidUrl = require('@jswork/is-valid-url').default;
-  var NxObjectOperator = nx.ObjectOperator || require('@jswork/next-object-operator');
-  var defaults = { type: 'browser' };
+import nx from '@jswork/next';
+import isValidUrl from '@jswork/is-valid-url';
+import '@jswork/next-object-operator';
+import '@jswork/next-qs';
+import '@jswork/next-param';
 
-  var normalizeUrl = function (url) {
-    if (!url) return '';
-    return url.replace('#/', '');
-  };
+const defaults = { type: 'browser' };
+const normalizeURL = function (url) {
+  if (!url) return '';
+  return url.replace('#/', '');
+};
 
-  var NxUrlOperator = nx.declare('nx.UrlOperator', {
-    extends: NxObjectOperator,
-    statics: {
-      update: function (inObject, inUrl) {
-        var url = normalizeUrl(inUrl || location.href);
-        var instance = new this({ url: url });
-        return instance.update(inObject);
-      }
-    },
-    properties: {
-      ishash: function () {
-        return this.options.type === 'hash';
-      },
-      url: function () {
-        return normalizeUrl(location.href);
-      },
-      optUrl: function () {
-        return normalizeUrl(this.options.url);
-      }
-    },
-    methods: {
-      init: function (inOptions) {
-        this.options = nx.mix(null, { url: this.url }, defaults, inOptions);
-        this.params = nxHashlize(this.optUrl);
-        this.$base.init.call(this, this.params);
-      },
-      update: function (inObject) {
-        this.sets(inObject);
-        var optUrl = this.optUrl;
-        var valid = isValidUrl(optUrl);
-        var url = valid ? new URL(optUrl) : optUrl.split('?')[0];
-        var hashfix = this.ishash ? '/#' : '';
-        var prefix = valid ? [url.origin, hashfix, url.pathname].join('') : url;
-        var params = this.gets();
-        return nxParam(params, prefix);
-      }
+const NxUrlOperator = nx.declare('nx.UrlOperator', {
+  extends: nx.ObjectOperator,
+  statics: {
+    update: function (inObject, inUrl) {
+      var url = normalizeURL(inUrl || location.href);
+      var instance = new this({ url: url });
+      return instance.update(inObject);
     }
-  });
-
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = NxUrlOperator;
+  },
+  properties: {
+    ishash: function () {
+      return this.options.type === 'hash';
+    },
+    url: function () {
+      return normalizeURL(location.href);
+    },
+    optUrl: function () {
+      return normalizeURL(this.options.url);
+    }
+  },
+  methods: {
+    init: function (inOptions) {
+      this.options = nx.mix(null, { url: this.url }, defaults, inOptions);
+      this.params = nx.qs(this.optUrl);
+      this.$base.init.call(this, this.params);
+    },
+    update: function (inObject) {
+      this.sets(inObject);
+      var optUrl = this.optUrl;
+      var valid = isValidUrl(optUrl);
+      var url = valid ? new URL(optUrl) : optUrl.split('?')[0];
+      var hashfix = this.ishash ? '/#' : '';
+      var prefix = valid ? [url.origin, hashfix, url.pathname].join('') : url;
+      var params = this.gets();
+      return nx.param(params, prefix);
+    }
   }
-})();
+});
+
+if (typeof module !== 'undefined' && module.exports && typeof wx === 'undefined') {
+  module.exports = NxUrlOperator;
+}
+
+export default NxUrlOperator;
